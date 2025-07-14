@@ -1,9 +1,9 @@
 using UnityEditor;
 using UnityEngine;
 
-public class ObjectsReplacer : EditorWindow
+public class ObjectsReplacer //: EditorWindow
 {
-    private GameObject _replacementPrefab;
+    /*private GameObject _replacementPrefab;
     private bool _addNumber = true;
 
     //Toolbar action
@@ -69,5 +69,5 @@ public class ObjectsReplacer : EditorWindow
             Undo.DestroyObjectImmediate(selectedObjects[i]);
         }
         Debug.Log("Meshes Replaced");
-    }
+    }*/
 }
