@@ -41,3 +41,18 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: OriginalSprite
+    uniqueID: 3122234615
+    locked: 0
+  - name: SpriteD
+    uniqueID: 1252954987
+    locked: 0
+  - name: SpriteC
+    uniqueID: 2699799909
+    locked: 0
+  - name: SpriteB
+    uniqueID: 1238234819
+    locked: 0
+  - name: Effects
+    uniqueID: 2415415197
+    locked: 0

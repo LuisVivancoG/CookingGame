@@ -1,3 +1,4 @@
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -8,8 +9,11 @@ public class InputDemo : MonoBehaviour
     public UnityEvent _slicedCheese;
     public UnityEvent _seasoned;
     private Camera _mainCamera;
+
+    private CinemachineImpulseSource _impulseSource;
     private void Start()
     {
+        _impulseSource = GetComponent<CinemachineImpulseSource>();
         _mainCamera = Camera.main;
     }
 
@@ -38,6 +42,7 @@ public class InputDemo : MonoBehaviour
                     {
                         sliceable.MakeSlice();
                         _slicedCheese?.Invoke();
+                        CameraShake.Instance.DoShake(_impulseSource);
                         Debug.Log("Sliced: " + hit.name);
                     }
                     else
