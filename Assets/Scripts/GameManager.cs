@@ -7,40 +7,11 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    /*[SerializeField] private GameObject _miniGame1;
-    [SerializeField] private GameObject _miniGame2;
-    [SerializeField] private GameObject _miniGame3;*/
-
     [SerializeField] private TimeManager _timeManager;
     [SerializeField] private int _stageTime;
-
     [SerializeField] private GameObject _stageManager;
-
     [SerializeField] private UnityEvent FinishedLoop;
-
     [SerializeField] private string level;
-
-    /*private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.Z))
-        {
-            _miniGame1.SetActive(true);
-            _miniGame2.SetActive(false);
-            _miniGame3.SetActive(false);
-        }
-        else if (Input.GetKeyUp(KeyCode.X))
-        {
-            _miniGame1.SetActive(false);
-            _miniGame2.SetActive(true);
-            _miniGame3.SetActive(false);
-        }
-        else if (Input.GetKeyUp(KeyCode.C))
-        {
-            _miniGame1.SetActive(false);
-            _miniGame2.SetActive(false);
-            _miniGame3.SetActive(true);
-        }
-    }*/
 
     private void Start()
     {
@@ -71,12 +42,6 @@ public class GameManager : MonoBehaviour
         _stageManager.SetActive(false);
         FinishedLoop?.Invoke();
 
-        StartCoroutine(Transitioning());
-    }
-
-    IEnumerator Transitioning()
-    {
-        yield return new WaitForSeconds(1);
-        SceneManager.LoadScene(level/*SceneManager.GetActiveScene().buildIndex + 1*/);
+        LevelsManager.Instance.LoadScene(level);
     }
 }

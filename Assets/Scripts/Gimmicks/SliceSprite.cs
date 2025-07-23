@@ -29,5 +29,4 @@ public class SliceSprite : MonoBehaviour
 
         _mask.gameObject.transform.position = _currentPos;
     }
-
 }

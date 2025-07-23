@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 namespace Timer
 {
-    public class TimeManager : MonoBehaviour
+    public class TimeManager : Singleton<TimeManager>
     {
         private int _maxTime;
         private GameManager _gameManager;

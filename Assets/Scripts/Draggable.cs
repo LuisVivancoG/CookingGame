@@ -35,7 +35,7 @@ public class Draggable : MonoBehaviour
         _hasCrossedX = false;
         _lastY = -1f;
         transform.position = _originalPosition;
-        transform.rotation = Quaternion.identity;
+        //transform.rotation = Quaternion.identity;
     }
 
     private void Update()
@@ -55,15 +55,15 @@ public class Draggable : MonoBehaviour
 
             if (screenPos.x <= screenXThreshold)
             {
-                transform.rotation = Quaternion.Euler(0f, 0f, 75f);
+                //transform.rotation = Quaternion.Euler(0f, 0f, 75f);
                 _hasCrossedX = true;
 
                 TrackVerticalMovement(screenPos.y);
             }
-            else
+            /*else
             {
                 transform.rotation = Quaternion.identity;
-            }
+            }*/
         }
     }
 

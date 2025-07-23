@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: de7fe71ba4bf8e64287214a0314ccc37
+  - enabled: 1
     path: Assets/Scenes/LuisGym.unity
     guid: 629250492e3844b49861ee8ed12687f8
   - enabled: 1
