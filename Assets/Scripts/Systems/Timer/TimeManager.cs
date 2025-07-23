@@ -8,6 +8,9 @@ namespace Timer
 {
     public class TimeManager : Singleton<TimeManager>
     {
+        private int countdown;
+        public EventHandler<int> OnInitialCountDown;
+
         private int _maxTime;
         private GameManager _gameManager;
         private TimeSpan CurrentTime;
@@ -15,7 +18,6 @@ namespace Timer
 
         public int MaxTime => _maxTime;
         public EventHandler<TimeSpan> OnTimeChanged;
-        public UnityEvent OnTimeConsumed;
         public UnityEvent OnTimerFinished;
 
         public void SetUp(GameManager gameManager, int time)
@@ -28,7 +30,7 @@ namespace Timer
 
         public void InitiateTimer()
         {
-            StartCoroutine(Countdown());
+            StartCoroutine(Timer());
         }
 
         public void TimeConsume(int timeRested)
@@ -37,11 +39,10 @@ namespace Timer
             CurrentTime -= TimeSpan.FromSeconds(timeRested);
             if (CurrentTime < TimeSpan.Zero) CurrentTime = TimeSpan.Zero;
 
-            OnTimeConsumed.Invoke();
             OnTimeChanged?.Invoke(this, CurrentTime);
 
             if (CurrentTime.TotalSeconds > 0)
-                StartCoroutine(Countdown());
+                StartCoroutine(Timer());
             else
                 OnTimerFinished?.Invoke();
         }
@@ -51,7 +52,29 @@ namespace Timer
             StopAllCoroutines();
         }
 
-        IEnumerator Countdown()
+        public void InitiateCountdown()
+        {
+            StartCoroutine(InitialCountdown());
+        }
+
+        IEnumerator InitialCountdown()
+        {
+            /*for (int i = -1; countdown < i; countdown--)
+            {
+                OnInitialCountDown?.Invoke(this, countdown);
+            }*/
+
+            countdown = 3;
+            while (countdown > -1)
+            {
+                OnInitialCountDown?.Invoke(this, countdown);
+                Debug.Log(countdown);
+                countdown--;
+            }
+            yield return null;
+        }
+
+        IEnumerator Timer()
         {
             while (CurrentTime.TotalSeconds > 0)
             {

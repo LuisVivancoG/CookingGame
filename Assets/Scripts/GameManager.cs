@@ -5,17 +5,19 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : Singleton<GameManager>
 {
-    [SerializeField] private TimeManager _timeManager;
     [SerializeField] private int _stageTime;
-    [SerializeField] private GameObject _stageManager;
+    //[SerializeField] private GameObject _stageManager;
+    [SerializeField] private StageHandler _currentStageManager;
     [SerializeField] private UnityEvent FinishedLoop;
     [SerializeField] private string level;
 
+    private bool _stageStarted;
+
     private void Start()
     {
-        _timeManager.SetUp(this, _stageTime);
+        TimeManager.Instance.SetUp(this, _stageTime);
 
         StartCoroutine(GameLoop());
     }
@@ -26,20 +28,33 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(2);
 
-        _timeManager.InitiateTimer();
-        _stageManager.SetActive(true);
+        TimeManager.Instance.InitiateCountdown();
     }
 
     private IEnumerator GameLoop()
     {
-        yield return StartCoroutine(Preparation());
+        yield return new WaitForSeconds(2);
+
+        do
+        {
+            yield return StartCoroutine(Preparation());
+        }
+        while (_stageStarted);
+
+        yield return StartCoroutine(TimeRunning());
+    }
+
+    IEnumerator TimeRunning()
+    {
+        _currentStageManager.Initiate();
+        TimeManager.Instance.InitiateTimer();
+        yield return null;
     }
 
     public void EndLoop()
     {
         StopAllCoroutines();
-        _timeManager.FrezeTime();
-        _stageManager.SetActive(false);
+        TimeManager.Instance.FrezeTime();
         FinishedLoop?.Invoke();
 
         LevelsManager.Instance.LoadScene(level);

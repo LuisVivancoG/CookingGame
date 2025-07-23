@@ -239,34 +239,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AssetsAtlas_5
-      rect:
-        serializedVersion: 2
-        x: 817
-        y: 1496
-        width: 99
-        height: 227
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: f2d791b0368b0b580800000000000000
-      internalID: -8813341735236567761
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: AssetsAtlas_6
       rect:
         serializedVersion: 2
-        x: 866
-        y: 1511
-        width: 123
-        height: 218
+        x: 840
+        y: 1470
+        width: 158
+        height: 285
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -276,27 +255,6 @@ TextureImporter:
       bones: []
       spriteID: 849d4da6e49b2ee40800000000000000
       internalID: 5684309426145909064
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: AssetsAtlas_7
-      rect:
-        serializedVersion: 2
-        x: 897
-        y: 1476
-        width: 132
-        height: 213
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 9a3808cdf4f731ff0800000000000000
-      internalID: -66569588501871703
       vertices: []
       indices: 
       edges: []

@@ -638,7 +638,7 @@ SpriteRenderer:
   m_SortingLayerID: -1172732681
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 3318123810000330289, guid: 56e37e4585d929e4d9124c2b2675543f, type: 3}
+  m_Sprite: {fileID: 5684309426145909064, guid: 56e37e4585d929e4d9124c2b2675543f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -660,7 +660,7 @@ GameObject:
   - component: {fileID: 2012148399732711480}
   - component: {fileID: 1714666430074306593}
   m_Layer: 0
-  m_Name: CarrotToChop
+  m_Name: AsparagusToChop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1073,7 +1073,7 @@ GameObject:
   - component: {fileID: 2856319031355047094}
   - component: {fileID: 6008476187399347854}
   m_Layer: 0
-  m_Name: FullCarrot
+  m_Name: FullIngredient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: ChopSuey
   m_EditorClassIdentifier: 
   _dishName: ChopSuey
-  _choppableNeeded: 010000000200000003000000
+  _ingredientsToChop:
+  - {fileID: 3298442948580487995, guid: f2500bf9373685d42b40f89d27ff8e53, type: 3}
+  - {fileID: 3298442948580487995, guid: c3fbe0afae891064aa02efccfcd19928, type: 3}
   _condimentsNeeded: 01000000
-  _spriteFinalDish: {fileID: 0}
+  _spriteFinalDish: {fileID: -886994803533701197, guid: ec0a73fd52293374e86d3ad020e756c7, type: 3}
