@@ -17,5 +17,6 @@ public enum MenusEnum
     Underfined = 0,
     ConfirmationDialog = 1,
     PauseMenu = 2,
-    Settings = 3,
+    StageInstructions = 3,
+    Settings = 4,
 }

@@ -15,14 +15,14 @@ public class GameManager : Singleton<GameManager>
 
     private bool _stageStarted;
 
-    private void Start()
+    private void Start() //Set timer for current stage 
     {
         TimeManager.Instance.SetUp(this, _stageTime);
 
-        StartCoroutine(GameLoop());
+        //StartCoroutine(GameLoop());
     }
 
-    IEnumerator Preparation()
+    /*IEnumerator Preparation()
     {
         Debug.Log("Ready?");
 
@@ -58,5 +58,5 @@ public class GameManager : Singleton<GameManager>
         FinishedLoop?.Invoke();
 
         LevelsManager.Instance.LoadScene(level);
-    }
+    }*/
 }

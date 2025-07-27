@@ -13,7 +13,7 @@ public class SliceStageManager : StageHandler
         Initiate();
     }*/
 
-    public override void Initiate()
+    /*public override void Initiate()
     {
         for(int i = 0;  i < _currentRecipe.IngredientsToChop.Count; i++)
         {
@@ -36,5 +36,5 @@ public class SliceStageManager : StageHandler
         {
             GameManager.Instance.EndLoop();
         }
-    }
+    }*/
 }

@@ -27,7 +27,7 @@ public class SliceIngredient : MonoBehaviour
     [Header("Completed")]
     [SerializeField] private UnityEvent OnFinished;
 
-    void Start()
+    /*void Start()
     {
         mainCamera = Camera.main;
         ShowGuideLine();
@@ -115,5 +115,5 @@ public class SliceIngredient : MonoBehaviour
         Debug.Log("All cuts completed! Moving to next step.");
 
         OnFinished?.Invoke();
-    }
+    }*/
 }

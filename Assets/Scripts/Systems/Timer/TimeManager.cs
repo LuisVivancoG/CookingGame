@@ -8,31 +8,48 @@ namespace Timer
 {
     public class TimeManager : Singleton<TimeManager>
     {
+        [Header("Initial Countdown")]
         private int countdown;
         public EventHandler<int> OnInitialCountDown;
+        public EventHandler OnCountdownCompleted;
 
-        private int _maxTime;
+        [Header ("Stage Timer")]
         private GameManager _gameManager;
         private TimeSpan CurrentTime;
         private float _timerSpan = 1;
-
+        private int _maxTime;
         public int MaxTime => _maxTime;
         public EventHandler<TimeSpan> OnTimeChanged;
-        public UnityEvent OnTimerFinished;
 
         public void SetUp(GameManager gameManager, int time)
         {
+            TimeDisplay.Instance.TuneEvents();
             _gameManager = gameManager;
             _maxTime = time;
 
             CurrentTime = TimeSpan.FromSeconds(_maxTime);
+
+            StartCoroutine(InitialCountdown());
         }
 
-        public void InitiateTimer()
+        IEnumerator InitialCountdown()
         {
+            countdown = 3;
+            while (countdown > 0)
+            {
+                OnInitialCountDown?.Invoke(this, countdown);
+                //Debug.Log(countdown);
+
+                yield return new WaitForSeconds(1f);
+
+                countdown--;
+            }
+            //Debug.Log("Countdown finished");
+            OnCountdownCompleted?.Invoke(this, null);
             StartCoroutine(Timer());
         }
 
+        /*
         public void TimeConsume(int timeRested)
         {
             StopAllCoroutines();
@@ -51,29 +68,7 @@ namespace Timer
         {
             StopAllCoroutines();
         }
-
-        public void InitiateCountdown()
-        {
-            StartCoroutine(InitialCountdown());
-        }
-
-        IEnumerator InitialCountdown()
-        {
-            /*for (int i = -1; countdown < i; countdown--)
-            {
-                OnInitialCountDown?.Invoke(this, countdown);
-            }*/
-
-            countdown = 3;
-            while (countdown > -1)
-            {
-                OnInitialCountDown?.Invoke(this, countdown);
-                Debug.Log(countdown);
-                countdown--;
-            }
-            yield return null;
-        }
-
+        */
         IEnumerator Timer()
         {
             while (CurrentTime.TotalSeconds > 0)
@@ -86,7 +81,6 @@ namespace Timer
 
                 OnTimeChanged?.Invoke(this, CurrentTime);
             }
-            OnTimerFinished?.Invoke();
         }
     }
 }

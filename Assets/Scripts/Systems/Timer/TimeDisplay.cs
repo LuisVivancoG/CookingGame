@@ -1,27 +1,33 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Timer
 {
-    public class TimeDisplay : MonoBehaviour
+    public class TimeDisplay : Singleton<TimeDisplay>
     {
         [SerializeField] private TMP_Text _textDisplay;
         [SerializeField] private Slider _slider;
+        [SerializeField] private SquashAndStretch _textSquash;
 
-        private void Awake()
+        [Header("Initial Countdown")]
+        [SerializeField] private List<string> _countdownTexts;
+
+        public void TuneEvents()
         {
-            StartCoroutine(DelayedAwake());
+            TimeManager.Instance.OnTimeChanged += OnTimeChanged;
+            TimeManager.Instance.OnInitialCountDown += CountdownUpdate;
         }
-
         void CountdownUpdate(object sender, int currentCount)
         {
-            _textDisplay.text = new string("Ready?\n" + currentCount);
+            _textDisplay.text = _countdownTexts[currentCount - 1];
+            _textSquash.CheckForAndStartCoroutine();
         }
 
-        private void OnTimeChanged(object sender, TimeSpan newTime) //Updates time display based on current time span
+        private void OnTimeChanged(object sender, TimeSpan newTime) //Updates time display based on Stage MaxTime
         {
             int seconds = (int)newTime.TotalSeconds;
             _textDisplay.text = seconds.ToString();
@@ -34,13 +40,6 @@ namespace Timer
         {
             TimeManager.Instance.OnTimeChanged -= OnTimeChanged;
             TimeManager.Instance.OnInitialCountDown -= CountdownUpdate;
-        }
-
-        IEnumerator DelayedAwake()
-        {
-            yield return new WaitForSeconds(1f);
-            TimeManager.Instance.OnTimeChanged += OnTimeChanged;
-            TimeManager.Instance.OnInitialCountDown += CountdownUpdate;
         }
     }
 }

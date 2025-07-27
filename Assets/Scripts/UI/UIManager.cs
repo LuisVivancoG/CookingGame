@@ -4,10 +4,11 @@ using UnityEngine;
 public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject _safeZone;
+    [SerializeField] private InstructionsDialog _instructionsPrefab;
     //[SerializeField] private ConfirmationDialog _confirmationDialogPrefab;
     //[SerializeField] private BuildingOptions _buildingOptionsPrefab;
     //[SerializeField] private ArmyCampOptions _armyCampOptionsPrefab;
-    [SerializeField] private PauseMenu _pauseOptionsPrefab;
+    //[SerializeField] private PauseMenu _pauseOptionsPrefab;
     //[SerializeField] private DefeatDialog _defeatPrefab;
 
     Dictionary<MenusEnum, DialogBase> _dialogInstances = new();
@@ -30,6 +31,9 @@ public class UIManager : MonoBehaviour
             DialogBase created = null;
             switch (dialogType)
             {
+                case MenusEnum.StageInstructions:
+                    created = CreateDialogFromPrefab(_instructionsPrefab);
+                    break;
                 case MenusEnum.ConfirmationDialog:
                     //created = CreateDialogFromPrefab(_confirmationDialogPrefab);
                     break;
@@ -37,7 +41,7 @@ public class UIManager : MonoBehaviour
                     //created = CreateDialogFromPrefab(_armyCampOptionsPrefab);
                     break;
                 case MenusEnum.PauseMenu:
-                    created = CreateDialogFromPrefab(_pauseOptionsPrefab);
+                    //created = CreateDialogFromPrefab(_pauseOptionsPrefab);
                     break;
             }
             if (created == null)
