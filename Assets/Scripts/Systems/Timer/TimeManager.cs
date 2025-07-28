@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -18,14 +17,17 @@ namespace Timer
         private TimeSpan CurrentTime;
         private float _timerSpan = 1;
         private int _maxTime;
+        private StageHandler _stageHandler;
         public int MaxTime => _maxTime;
         public EventHandler<TimeSpan> OnTimeChanged;
+        public UnityEvent OnTimerFinished;
 
-        public void SetUp(GameManager gameManager, int time)
+        public void SetUp(GameManager gameManager, int time, StageHandler handler)
         {
             TimeDisplay.Instance.TuneEvents();
             _gameManager = gameManager;
             _maxTime = time;
+            _stageHandler = handler;
 
             CurrentTime = TimeSpan.FromSeconds(_maxTime);
 
@@ -46,10 +48,23 @@ namespace Timer
             }
             //Debug.Log("Countdown finished");
             OnCountdownCompleted?.Invoke(this, null);
+            UIManager.Instance.ShowSlider();
+            _stageHandler.FetchNextIngredient();
             StartCoroutine(Timer());
         }
+        IEnumerator Timer()
+        {
+            while (CurrentTime.TotalSeconds > 0)
+            {
+                yield return new WaitForSeconds(_timerSpan);
+                CurrentTime -= TimeSpan.FromSeconds(1);
 
-        /*
+                if (CurrentTime < TimeSpan.Zero)
+                    CurrentTime = TimeSpan.Zero;
+
+                OnTimeChanged?.Invoke(this, CurrentTime);
+            }
+        }
         public void TimeConsume(int timeRested)
         {
             StopAllCoroutines();
@@ -67,20 +82,6 @@ namespace Timer
         public void FrezeTime()
         {
             StopAllCoroutines();
-        }
-        */
-        IEnumerator Timer()
-        {
-            while (CurrentTime.TotalSeconds > 0)
-            {
-                yield return new WaitForSeconds(_timerSpan);
-                CurrentTime -= TimeSpan.FromSeconds(1);
-
-                if (CurrentTime < TimeSpan.Zero)
-                    CurrentTime = TimeSpan.Zero;
-
-                OnTimeChanged?.Invoke(this, CurrentTime);
-            }
         }
     }
 }

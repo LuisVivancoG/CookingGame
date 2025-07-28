@@ -18,6 +18,7 @@ public class SliceIngredient : MonoBehaviour
     private Camera mainCamera;
     private bool isDragging = false;
     private bool cutCompletedDuringDrag = false;
+    private StageHandler stageHandler;
 
     [Header("Fail Setup")]
     //[SerializeField] private UnityEvent OnFailedSlice;
@@ -27,10 +28,15 @@ public class SliceIngredient : MonoBehaviour
     [Header("Completed")]
     [SerializeField] private UnityEvent OnFinished;
 
-    /*void Start()
+    void Start()
     {
         mainCamera = Camera.main;
         ShowGuideLine();
+    }
+
+    public void SetStageManager(StageHandler handler)
+    {
+        stageHandler = handler;
     }
 
     void Update()
@@ -112,8 +118,9 @@ public class SliceIngredient : MonoBehaviour
             guide.enabled = false;
         }
 
-        Debug.Log("All cuts completed! Moving to next step.");
+        //Debug.Log("All cuts completed! Moving to next step.");
 
         OnFinished?.Invoke();
-    }*/
+        stageHandler.FetchNextIngredient();
+    }
 }

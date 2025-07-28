@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using Timer;
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManager : Singleton<UIManager>
 {
     [SerializeField] private GameObject _safeZone;
     [SerializeField] private InstructionsDialog _instructionsPrefab;
+
     //[SerializeField] private ConfirmationDialog _confirmationDialogPrefab;
     //[SerializeField] private BuildingOptions _buildingOptionsPrefab;
     //[SerializeField] private ArmyCampOptions _armyCampOptionsPrefab;
@@ -18,6 +20,11 @@ public class UIManager : MonoBehaviour
 
     private int _topSortingOrder = 0;
     private const int _sortOrderGap = 10;
+
+    public void ShowSlider()
+    {
+        TimeDisplay.Instance.Slider.gameObject.SetActive (true);
+    }
 
     public DialogBase ShowDialog(MenusEnum dialogType)
     {

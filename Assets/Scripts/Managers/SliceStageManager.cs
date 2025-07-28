@@ -1,40 +1,50 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SliceStageManager : StageHandler
 {
     [SerializeField] private RecipeSO _currentRecipe;
-    private int _currentIngredient = 0;
+    private int _currentIndex = 0;
     private Dictionary<int, GameObject> _choppingDictionary = new Dictionary<int, GameObject>();
 
-    /*private void Start()
+    private void Start()
     {
         Initiate();
-    }*/
+    }
 
-    /*public override void Initiate()
+    public override void Initiate()
     {
         for(int i = 0;  i < _currentRecipe.IngredientsToChop.Count; i++)
         {
-            _choppingDictionary.Add(i, _currentRecipe.IngredientsToChop[i]);
-            var choppablePrefab = Instantiate(_choppingDictionary[i]);
-            choppablePrefab.SetActive(false);
+            var choppableInstance = Instantiate(_currentRecipe.IngredientsToChop[i]);
+            choppableInstance.SetActive(false);
+            choppableInstance.TryGetComponent<SliceIngredient>(out SliceIngredient slice);
+            slice.SetStageManager(this);
+            _choppingDictionary.Add(i, choppableInstance);
         }
-        _choppingDictionary[_currentIngredient].SetActive(true);
-        Debug.Log("Enabling " + _choppingDictionary[_currentIngredient]);
+        //Debug.Log($"Dictionary filled with {_choppingDictionary.Count} ingredients.");
     }
 
     public override void FetchNextIngredient()
     {
-        if(_currentIngredient <= _choppingDictionary.Count)
+        if (!_choppingDictionary.ContainsKey(_currentIndex))
         {
-            _currentIngredient++;
-            _choppingDictionary[_currentIngredient].SetActive(true);
+            //Debug.LogWarning($"Key {_currentIndex} not found in dictionary!");
+            return;
+        }
+
+        //Debug.Log("Fetching for " + _choppingDictionary[_currentIndex] + " / currentIndex = " + _currentIndex + " / dictionary count = " + _choppingDictionary.Count);
+
+        if (_currentIndex <= _choppingDictionary.Count)
+        {
+            //Debug.Log("Activating " + _currentIndex + _choppingDictionary[_currentIndex]);
+            _choppingDictionary[_currentIndex].gameObject.SetActive(true);
+            _currentIndex++;
         }
         else
         {
+            Debug.Log("Current index out of dictionary" + _currentIndex);
             GameManager.Instance.EndLoop();
         }
-    }*/
+    }
 }

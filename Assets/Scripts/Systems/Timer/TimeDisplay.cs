@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -15,6 +14,8 @@ namespace Timer
 
         [Header("Initial Countdown")]
         [SerializeField] private List<string> _countdownTexts;
+
+        public Slider Slider => _slider;
 
         public void TuneEvents()
         {

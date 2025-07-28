@@ -1078,7 +1078,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e75778fa4d8899479f6b258072ffa88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _level: LuisGym
+  _level: ChopStage
 --- !u!1001 &7129319706706173882
 PrefabInstance:
   m_ObjectHideFlags: 0

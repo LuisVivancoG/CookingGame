@@ -1,12 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using Timer;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    [SerializeField] private GameObject _buttonGO;
     [SerializeField] private int _stageTime;
     //[SerializeField] private GameObject _stageManager;
     [SerializeField] private StageHandler _currentStageManager;
@@ -15,39 +14,32 @@ public class GameManager : Singleton<GameManager>
 
     private bool _stageStarted;
 
-    private void Start() //Set timer for current stage 
+    private void Start()
     {
-        TimeManager.Instance.SetUp(this, _stageTime);
-
-        //StartCoroutine(GameLoop());
+        StartCoroutine(TipButton());
+    }
+    IEnumerator TipButton()
+    {
+        yield return new WaitForSeconds(1.8f);
+        _buttonGO.SetActive(true);
     }
 
-    /*IEnumerator Preparation()
+    public void InstructionsAccepted() //Set timer for current stage 
     {
-        Debug.Log("Ready?");
-
-        yield return new WaitForSeconds(2);
-
-        TimeManager.Instance.InitiateCountdown();
+        StartCoroutine(Preparation());
     }
-
-    private IEnumerator GameLoop()
+    /*private IEnumerator GameLoop()
     {
-        yield return new WaitForSeconds(2);
+        StartCoroutine(Preparation());
 
-        do
-        {
-            yield return StartCoroutine(Preparation());
-        }
-        while (_stageStarted);
-
-        yield return StartCoroutine(TimeRunning());
-    }
-
-    IEnumerator TimeRunning()
+        yield return null;
+    }*/
+    IEnumerator Preparation()
     {
-        _currentStageManager.Initiate();
-        TimeManager.Instance.InitiateTimer();
+        //yield return new WaitForSeconds(.5f);
+
+        TimeManager.Instance.SetUp(this, _stageTime, _currentStageManager);
+
         yield return null;
     }
 
@@ -58,5 +50,5 @@ public class GameManager : Singleton<GameManager>
         FinishedLoop?.Invoke();
 
         LevelsManager.Instance.LoadScene(level);
-    }*/
+    }
 }
