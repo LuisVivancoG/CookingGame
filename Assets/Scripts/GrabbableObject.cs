@@ -1,112 +1,68 @@
+using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Events;
-
-[System.Serializable]
-public class FloatEvent : UnityEvent<float> { }
 
 public class GrabbableObject : MonoBehaviour
 {
-    [Header("Seasoning Zone Settings")]
-    [SerializeField] private Vector2 seasoningZoneCenter = new Vector2(0.5f, 0.5f);
-    [SerializeField] private float seasoningZoneWidth = 0.2f;
-    [SerializeField] private float seasoningZoneHeight = 0.4f;
-
-    [Header("Shake Sensitivity")]
-    [SerializeField] private float minShakeDeltaY = 0.05f;
-    [SerializeField] private float maxShakeDeltaY = 0.3f;
-    [SerializeField] private float multiplierValue = 7;
-
-    [SerializeField] private FloatEvent OnSeasoningShakeWithStrength;
-
+    //[SerializeField] private ParticleSystem _particles;
+    [SerializeField] private float _minAngleParticles = 90f;
+    [SerializeField] private float _maxAngleParticles = 270f;
     private Camera _mainCamera;
-    private Vector3 _originalPosition;
-    private bool _isDragging = false;
-    private float _lastY = -1f;
-    private bool _waitingForDown = false;
-    private SquashAndStretch SquashComponent;
+    private SquashAndStretch _squashComponent;
+    private Vector2 _difference = Vector2.zero;
+    private bool _isMoving;
+    private Tween _rotationTween;
+    //private bool _particlesActive = false;
 
     private void Start()
     {
         _mainCamera = Camera.main;
-        _originalPosition = transform.position;
-        SquashComponent = GetComponent<SquashAndStretch>();
+        _squashComponent = GetComponent<SquashAndStretch>();
     }
 
     private void OnMouseDown()
     {
-        _isDragging = true;
-        SquashComponent.CheckForAndStartCoroutine();
+        _difference = (Vector2)_mainCamera.ScreenToWorldPoint(Input.mousePosition) - (Vector2)transform.position;
+        _squashComponent.CheckForAndStartCoroutine();
+    }
+
+    private void OnMouseDrag()
+    {
+        transform.position = (Vector2)_mainCamera.ScreenToWorldPoint(Input.mousePosition) - _difference;
     }
 
     private void OnMouseUp()
     {
-        _isDragging = false;
-        _lastY = -1f;
-        _waitingForDown = false;
-        transform.position = _originalPosition;
-        transform.rotation = Quaternion.identity;
+        _isMoving = false;
     }
 
-    private void Update()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!_isDragging) return;
-
-        Vector3 mouseScreenPos = Input.mousePosition;
-        mouseScreenPos.z = Mathf.Abs(_mainCamera.transform.position.z);
-        Vector3 mouseWorldPos = _mainCamera.ScreenToWorldPoint(mouseScreenPos);
-        mouseWorldPos.z = 0f;
-        transform.position = mouseWorldPos;
-
-        Vector3 viewportPos = _mainCamera.WorldToViewportPoint(transform.position);
-        bool insideZone = IsInsideSeasoningZone(viewportPos);
-
-        if (insideZone)
+        if (collision.TryGetComponent<TriggerZone>(out TriggerZone component))
         {
-            transform.rotation = Quaternion.Euler(0f, 0f, 135f);
-            SquashComponent.CheckForAndStartCoroutine();
-            DetectShake(viewportPos.y);
-        }
-        else
-        {
-            transform.rotation = Quaternion.identity;
+            Debug.Log($"Entering {collision.name}");
+
+            _rotationTween?.Kill();
+
+            var newRot = new Vector3(0, 0, 160);
+            _rotationTween = transform.DORotate(newRot, .75f, RotateMode.Fast).SetEase(Ease.OutSine).OnComplete(() => _isMoving = false);
         }
     }
 
-    private bool IsInsideSeasoningZone(Vector3 viewportPos)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-        float dx = Mathf.Abs(viewportPos.x - seasoningZoneCenter.x);
-        float dy = Mathf.Abs(viewportPos.y - seasoningZoneCenter.y);
-        return dx <= seasoningZoneWidth * 0.5f && dy <= seasoningZoneHeight * 0.5f;
+        ObjectPooll.Instance.GetObject();
     }
 
-    private void DetectShake(float currentY)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if (_lastY < 0f)
+        if(collision.TryGetComponent<TriggerZone>(out TriggerZone component) )
         {
-            _lastY = currentY;
-            return;
+            Debug.Log($"Exiting {collision.name}");
+
+            _rotationTween?.Kill();
+
+            var newRot = new Vector3(0, 0, 0);
+            _rotationTween = transform.DORotate(newRot, .9f, RotateMode.Fast).SetEase(Ease.OutSine).OnComplete(() => _isMoving = false);
         }
-
-        float deltaY = currentY - _lastY;
-
-        if (!_waitingForDown && deltaY > minShakeDeltaY)
-        {
-            _waitingForDown = true;
-        }
-        else if (_waitingForDown && deltaY < -minShakeDeltaY)
-        {
-            float shakeStrength = Mathf.Abs(deltaY);
-
-            // Clamp and normalize between min and max
-            float normalized = Mathf.InverseLerp(minShakeDeltaY, maxShakeDeltaY, shakeStrength);
-            normalized = normalized * multiplierValue;
-
-
-            OnSeasoningShakeWithStrength?.Invoke(normalized);
-
-            _waitingForDown = false;
-        }
-
-        _lastY = currentY;
     }
 }

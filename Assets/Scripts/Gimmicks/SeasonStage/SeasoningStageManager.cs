@@ -9,7 +9,9 @@ public class SeasoningStageManager : StageHandler
     [SerializeField] private GameObject[] _prefabs;
     [SerializeField] private GameObject _parentInstances;
 
-    [Header("Score System")]
+    [SerializeField] private int _points;
+
+    /*[Header("Score System")]
     [SerializeField] private float _goalScore = 5f;
     private float _score = 0f;
 
@@ -26,10 +28,11 @@ public class SeasoningStageManager : StageHandler
 
     private float _targetValue = 0f;
     public float MinRange => _minRange;
-    public float MaxRange => _maxRange;
+    public float MaxRange => _maxRange;*/
 
     private void Start()
     {
+        _points = 0;
         Initiate();
     }
 
@@ -52,11 +55,11 @@ public class SeasoningStageManager : StageHandler
         }
     }
 
-    public override void FetchNextIngredient()
+    public void AddPoint()
     {
-
+        _points++;
     }
-    public void ReceiveSeasoningStrength(float strength)
+    /*public void ReceiveSeasoningStrength(float strength)
     {
         _score += strength;
         _score = Mathf.Min(_score, _goalScore);
@@ -89,5 +92,5 @@ public class SeasoningStageManager : StageHandler
             _saltParticles.Stop();
             Debug.Log("Sazonado completo");
         }
-    }
+    }*/
 }
