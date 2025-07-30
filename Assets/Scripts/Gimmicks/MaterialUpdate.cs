@@ -12,8 +12,6 @@ public class MaterialUpdate : MonoBehaviour
         RestoreValue();
 
         currentValue = _material.GetFloat("_Edge_1");
-
-        //Debug.Log("Current value " + _material.GetFloat("_Edge_1"));
     }
 
     private void OnDisable()
@@ -26,8 +24,6 @@ public class MaterialUpdate : MonoBehaviour
         var newValue = currentValue -= _cutSize;
 
         _material.SetFloat("_Edge_1", newValue);
-
-        //Debug.Log("Slice made " + _material.GetFloat("_Edge_1"));
     }
 
     public void RestoreValue()

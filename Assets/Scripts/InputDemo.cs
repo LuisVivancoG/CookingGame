@@ -38,18 +38,10 @@ public class InputDemo : MonoBehaviour
             {
                 if (hit.TryGetComponent(out SliceSprite sliceable))
                 {
-                    if (!sliceable.InvertAxis)
-                    {
-                        sliceable.MakeSlice();
-                        _slicedCheese?.Invoke();
-                        CameraShake.Instance.DoShake(_impulseSource);
-                        Debug.Log("Sliced: " + hit.name);
-                    }
-                    else
-                    {
-                        sliceable.Season();
-                        _seasoned?.Invoke();
-                    }
+                    //sliceable.MakeSlice();
+                    _slicedCheese?.Invoke();
+                    CameraShake.Instance.DoShake(_impulseSource);
+                    Debug.Log("Sliced: " + hit.name);
                 }
                 else
                 {

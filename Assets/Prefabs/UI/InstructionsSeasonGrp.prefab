@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 6540275390154829851}
   - component: {fileID: 9081938462518744488}
   m_Layer: 5
-  m_Name: InstructionsGrp
+  m_Name: InstructionsSeasonGrp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

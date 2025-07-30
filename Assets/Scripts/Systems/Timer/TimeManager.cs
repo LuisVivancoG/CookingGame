@@ -40,13 +40,11 @@ namespace Timer
             while (countdown > 0)
             {
                 OnInitialCountDown?.Invoke(this, countdown);
-                //Debug.Log(countdown);
 
                 yield return new WaitForSeconds(1f);
 
                 countdown--;
             }
-            //Debug.Log("Countdown finished");
             OnCountdownCompleted?.Invoke(this, null);
             UIManager.Instance.ShowSlider();
             _stageHandler.FetchNextIngredient();
@@ -64,6 +62,7 @@ namespace Timer
 
                 OnTimeChanged?.Invoke(this, CurrentTime);
             }
+            OnTimerFinished?.Invoke();
         }
         public void TimeConsume(int timeRested)
         {
@@ -76,7 +75,7 @@ namespace Timer
             if (CurrentTime.TotalSeconds > 0)
                 StartCoroutine(Timer());
             else
-                OnTimerFinished?.Invoke();
+                GameManager.Instance.EndLoop();
         }
 
         public void FrezeTime()

@@ -45,10 +45,14 @@ public class GameManager : Singleton<GameManager>
 
     public void EndLoop()
     {
+        Debug.Log($"Finishing stage {_stageTime}");
         StopAllCoroutines();
         TimeManager.Instance.FrezeTime();
         FinishedLoop?.Invoke();
+    }
 
+    public void LoadNextLevel()
+    {
         LevelsManager.Instance.LoadScene(level);
     }
 }

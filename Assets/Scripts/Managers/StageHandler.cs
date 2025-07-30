@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class StageHandler : MonoBehaviour
+public class StageHandler : Singleton<StageHandler>
 {
     public virtual void Initiate()
     {

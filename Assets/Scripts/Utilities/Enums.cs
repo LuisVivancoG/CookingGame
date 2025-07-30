@@ -20,3 +20,31 @@ public enum MenusEnum
     StageInstructions = 3,
     Settings = 4,
 }
+
+public enum ChoppingStates
+{
+    Underfined,
+    FullCarrot,
+    Carrot3,
+    Carrot2,
+    Carrot1,
+    FullAsparagus,
+    Asparagus3,
+    Asparagus2,
+    Asparagus1,
+    FullChicken,
+    Chicken3,
+    Chicken2,
+    Chicken1,
+    CarrotCut,
+    AsparagusCutA,
+    AsparagusCutB,
+    AsparagusCutC,
+    AsparagusCutD,
+    AsparagusCutE,
+    ChickenCutA,
+    ChickenCutB,
+    ChickenCutC,
+    ChickenCutD,
+    ChickenCutE,
+}

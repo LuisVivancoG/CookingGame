@@ -5,20 +5,21 @@ using UnityEngine.Events;
 
 public class SliceIngredient : MonoBehaviour
 {
+    [SerializeField] private SliceSprite _spriteToSlice;
+
     [Header("Cutting Setup")]
     [SerializeField] private List<Transform> cutStartPoints;
     [SerializeField] private List<Transform> cutEndPoints;
     [SerializeField] private List<LineRenderer> guides;
-    [SerializeField] private List<GameObject> slicedSprites;
     [SerializeField] private float cutTolerance = 0.5f;
-
-    [SerializeField] private UnityEvent OnSlice;
+    [SerializeField] private List<string> namesList = new List<string>();
 
     private int currentCutIndex = 0;
     private Camera mainCamera;
     private bool isDragging = false;
     private bool cutCompletedDuringDrag = false;
     private StageHandler stageHandler;
+    private Transform _piecesParent;
 
     [Header("Fail Setup")]
     //[SerializeField] private UnityEvent OnFailedSlice;
@@ -28,15 +29,20 @@ public class SliceIngredient : MonoBehaviour
     [Header("Completed")]
     [SerializeField] private UnityEvent OnFinished;
 
+    private void Awake()
+    {
+        this.gameObject.name = namesList[currentCutIndex];
+    }
     void Start()
     {
         mainCamera = Camera.main;
         ShowGuideLine();
     }
 
-    public void SetStageManager(StageHandler handler)
+    public void SetStageManager(StageHandler handler, Transform parent)
     {
         stageHandler = handler;
+        _piecesParent = parent;
     }
 
     void Update()
@@ -106,9 +112,15 @@ public class SliceIngredient : MonoBehaviour
 
     private void MakeCutVisual()
     {
-        OnSlice?.Invoke();
-        slicedSprites[currentCutIndex].SetActive(true);
-        // Debug.Log("Cut #" + currentCutIndex + " done.");
+        _spriteToSlice.MakeSlice(_piecesParent);
+        if (namesList.Count > currentCutIndex)
+        {
+            if (currentCutIndex + 1 < namesList.Count)
+            {
+                this.gameObject.name = namesList[currentCutIndex + 1];
+            }
+            else return;
+        }
     }
 
     private void OnCuttingComplete()
@@ -117,9 +129,6 @@ public class SliceIngredient : MonoBehaviour
         {
             guide.enabled = false;
         }
-
-        //Debug.Log("All cuts completed! Moving to next step.");
-
         OnFinished?.Invoke();
         stageHandler.FetchNextIngredient();
     }
