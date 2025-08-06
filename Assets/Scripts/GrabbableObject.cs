@@ -1,17 +1,17 @@
 using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 
 public class GrabbableObject : MonoBehaviour
 {
-    //[SerializeField] private ParticleSystem _particles;
-    [SerializeField] private float _minAngleParticles = 90f;
-    [SerializeField] private float _maxAngleParticles = 270f;
+    [SerializeField] private float _delaySpawn;
+    [SerializeField] private Transform _spawnerLoc;
     private Camera _mainCamera;
     private SquashAndStretch _squashComponent;
     private Vector2 _difference = Vector2.zero;
     private bool _isMoving;
     private Tween _rotationTween;
-    //private bool _particlesActive = false;
+    private bool _isSpawning = false;
 
     private void Start()
     {
@@ -39,7 +39,7 @@ public class GrabbableObject : MonoBehaviour
     {
         if (collision.TryGetComponent<TriggerZone>(out TriggerZone component))
         {
-            Debug.Log($"Entering {collision.name}");
+            //Debug.Log($"Entering {collision.name}");
 
             _rotationTween?.Kill();
 
@@ -50,14 +50,32 @@ public class GrabbableObject : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        ObjectPooll.Instance.GetObject();
+        if (!_isSpawning)
+        {
+            StartCoroutine(PoolObject());
+        }
+    }
+
+    private IEnumerator PoolObject()
+    {
+        _isSpawning = true;
+
+        yield return new WaitForSeconds(_delaySpawn);
+
+        ObjectPooll.Instance.GetObject(_spawnerLoc.transform.position);
+
+        _isSpawning = false;
+
+        StartCoroutine(PoolObject());
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if(collision.TryGetComponent<TriggerZone>(out TriggerZone component) )
         {
-            Debug.Log($"Exiting {collision.name}");
+            //Debug.Log($"Exiting {collision.name}");
+            StopAllCoroutines();
+            _isSpawning = false;
 
             _rotationTween?.Kill();
 

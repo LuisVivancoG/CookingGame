@@ -462,7 +462,7 @@ MonoBehaviour:
   - Carrot2
   - Carrot1
   - Carrot0
-  _penalty: 5
+  _penalty: 0
   OnFinished:
     m_PersistentCalls:
       m_Calls:

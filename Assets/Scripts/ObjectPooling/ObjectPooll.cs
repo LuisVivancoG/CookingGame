@@ -15,18 +15,19 @@ public class ObjectPooll : Singleton<ObjectPooll>
         _stageManager = FindAnyObjectByType<SeasoningStageManager>();
     }
 
-    public GameObject GetObject()
+    public GameObject GetObject(Vector3 spawnPoint)
     {
         if(pool.Count > 0)
         {
             GameObject obj = pool.Dequeue();
-            Debug.Log("Retrieving previous obj");
+            //Debug.Log("Retrieving previous obj");
             obj.SetActive(true);
+            obj.transform.position = spawnPoint;
             return obj;
         }
 
         var newObj = Instantiate(_prefab, _spawnPoint.transform.position, _spawnPoint.transform.rotation, _parent.transform);
-        Debug.Log("New object pooled");
+        //Debug.Log("New object pooled");
         newObj.TryGetComponent<Collectable>(out Collectable component);
         component.SetPool(this, _stageManager);
         return newObj;

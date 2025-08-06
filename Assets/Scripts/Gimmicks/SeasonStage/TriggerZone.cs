@@ -43,7 +43,7 @@ public class TriggerZone : MonoBehaviour
         }
         else
         {
-            _objectHalfHeight = (transform.localScale.y / 2f);
+            _objectHalfHeight = (transform.localScale.y / 10f);
         }
         
         if(_currentLenght > _minLenght)
@@ -75,7 +75,7 @@ public class TriggerZone : MonoBehaviour
     public void AdjustHeight()
     {
         Vector3 newScale = transform.localScale;
-        newScale.y = transform.localScale.y - (_initialScale.y / 4);
+        newScale.y = transform.localScale.y - (_initialScale.y / 10);
         transform.localScale = newScale;
 
         UpdateHalfHeight();

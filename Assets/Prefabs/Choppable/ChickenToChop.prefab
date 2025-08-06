@@ -355,7 +355,7 @@ MonoBehaviour:
   - Chicken2
   - Chicken1
   - Chicken0
-  _penalty: 5
+  _penalty: 0
   OnFinished:
     m_PersistentCalls:
       m_Calls:

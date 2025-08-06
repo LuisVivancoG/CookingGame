@@ -13,6 +13,7 @@ public class Collectable : MonoBehaviour
     private void OnEnable()
     {
         //rb.AddForceY(5);
+        rb.velocity = Vector3.zero;
         _alreadyCounted = false;
     }
 
@@ -30,7 +31,16 @@ public class Collectable : MonoBehaviour
         {
             _alreadyCounted = true;
             _manager.AddPoint();
-            _pool.ReturnObject(this.gameObject);
+            StartCoroutine(RemoveObject());
         }
+    }
+
+    private IEnumerator RemoveObject()
+    {
+        var randomSecs = Random.Range(.35f, 4f);
+
+        yield return new WaitForSeconds(randomSecs);
+        
+        _pool.ReturnObject(this.gameObject);
     }
 }

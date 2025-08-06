@@ -355,7 +355,7 @@ MonoBehaviour:
   - Asparagus2
   - Asparagus1
   - Asparagus0
-  _penalty: 5
+  _penalty: 0
   OnFinished:
     m_PersistentCalls:
       m_Calls:
